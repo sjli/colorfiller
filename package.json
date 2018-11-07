@@ -1,0 +1,31 @@
+{
+  "name": "colorfiller",
+  "version": "1.0.0",
+  "description": "a demo of canvas color filler game with svg data",
+  "main": "index.html",
+  "scripts": {
+    "start": "webpack --mode development",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sjli/colorfiller.git"
+  },
+  "keywords": [
+    "canvas",
+    "svg"
+  ],
+  "author": "james.li0122@gmail.com",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/sjli/colorfiller/issues"
+  },
+  "homepage": "https://github.com/sjli/colorfiller#readme",
+  "devDependencies": {
+    "webpack": "^4.25.1",
+    "webpack-cli": "^3.1.2"
+  },
+  "dependencies": {
+    "svg-path-to-canvas": "^1.9.6"
+  }
+}
