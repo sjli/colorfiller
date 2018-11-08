@@ -3,7 +3,7 @@ const DEFAULT_COLORS = '#5dc5ea,#e7e6e4,#fff2d0,#fee38a,#ffb926,#ff7463,#9e6248,
 let cvs, ctx;
 let canvas_width, canvas_height;
 
-export const ColorPicker = {
+const ColorPicker = {
 
   _mx: 0, //moved x
 
@@ -393,3 +393,5 @@ export const ColorPicker = {
   }
 
 }
+
+export default ColorPicker

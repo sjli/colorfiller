@@ -1,6 +1,4 @@
-import {initProgress} from './progress'
 import {svgUtil, svgPaths, framePaths} from './svg-path-util'
-import {ColorPicker} from './color-picker'
 import {SVG_PATH_DATA, SVG_WIDTH, SVG_HEIGHT} from './sample-svg-path-data'
 
 const SCALE_THRESHOLD = 0.01;
@@ -18,53 +16,19 @@ let origin_scale;
 let cvs, ctx, shadowCvs, shadowCtx, offscreenCvs, offscreenCtx;
 let region;
 
-const Page = {
+const Drawer = {
 
   initialize() {
 
+    //debug
     window.onerror = function(e) {
       //alert(e)
     }
 
     this._initStates();
-    this._domLoading = document.querySelector('.weui-loading-wrap');
-    this.showLoading();
-    this._initPageProps();
-    initProgress();
-    let {width, height} = this.props;
-    canvas_height = +height / +width * canvas_width >> 0;
-    origin_scale = +width / canvas_width;
-    this._centerX = canvas_width / 2 >> 0;
-    this._centerY = canvas_height / 2 >> 0;
-    let _docWidth = document.documentElement.offsetWidth;
-    let _docHeight = document.documentElement.offsetHeight;
-    this._docWidth = _docWidth;
-    this._docHeight = _docHeight;
-    this._maxCssScale = _docWidth / BASE_WIDTH; //css缩放上限
-    document.querySelector('.main-wrap').style.height = canvas_height * (1.25 - 0.125) / 2 + 'px';
-    ColorPicker.initialize();
-    svgUtil.clearHitMap();
-
-    // Promise.all([
-    //   axios.get(this.props.pathsUrl),
-    //   //axios.get(this.props.framesUrl)
-    // ]).then(([res1, res2]) => {
-    //   if (typeof res1.data === 'string') {
-    //     res1.data = JSON.parse(res1.data.replace(/\t|\n|\s/g, ''));
-    //   }
-    //   // if (typeof res2.data === 'string') {
-    //   //   res2.data = JSON.parse(res2.data.replace(/\t|\n|\s/g, ''));
-    //   // }
-    //   svgUtil.initPaths(res1.data);
-    //   //svgUtil.initFrames(res2.data);
-    //   //alert('frames' + framePaths.length)
-    //   this.initCanvas();
-
-    //   //setTimeout(() => {this._speedTest()}, 1000); //debug
-    // }).catch(e => {
-    //   alert(e);
-    // });
-
+    this._initProps();
+    this._initSizes();
+    
     svgUtil.initPaths(SVG_PATH_DATA);
     this.initCanvas();
 
@@ -86,7 +50,7 @@ const Page = {
       alert('max render time:' + max + '; average time:' + (total / count >> 0));
       return;
     }
-    Page.renderScale(Math.random()*7+1)
+    this.renderScale(Math.random()*7+1)
     start = Date.now()
     count++;
     timer=setTimeout(random, 1)
@@ -121,7 +85,6 @@ const Page = {
     this._inited = true;
     this.initEvents();
     
-    this.hideLoading();
   },
 
   initOffscreenCanvas() {
@@ -174,10 +137,7 @@ const Page = {
       e.stopPropagation();
       this.onTouchEnd(e);
     });
-    ColorPicker.onPickColor(color => {
-      this._color = color;
-      svgUtil.clearHitMap();
-    })
+
     this.initBtnEvents();
   },
 
@@ -198,6 +158,11 @@ const Page = {
       e.stopPropagation();
       this.save.bind(this)(e);
     });
+  },
+
+  onSetColor(color) {
+    this._color = color;
+    svgUtil.clearHitMap();
   },
 
   onTouchStart(e) {
@@ -640,15 +605,15 @@ const Page = {
 
   _calcCenter([t0, t1]) {
     return {
-      x: (t0.clientX + t1.clientX) / 2,
-      y: (t0.clientY + t1.clientY) / 2
+      x: (t0.clientX + t1.clientX) >> 1,
+      y: (t0.clientY + t1.clientY) >> 1
     }
   },
 
   _checkTransBounds: function(curTrans) {
     let { _currentScale, _currentTranslate } = this;
-    let maxTx = canvas_width * (_currentScale - 1) / 2 / _currentScale >> 0;
-    let maxTy = canvas_height * (_currentScale - 1) / 2 / _currentScale >> 0;
+    let maxTx = (canvas_width * (_currentScale - 1) / _currentScale) >> 1;
+    let maxTy = (canvas_height * (_currentScale - 1) / _currentScale) >> 1;
     _currentTranslate = curTrans || _currentTranslate;
     if (_currentTranslate[0] > maxTx) { _currentTranslate[0] = maxTx }
     if (_currentTranslate[0] < -maxTx) { _currentTranslate[0] = -maxTx }
@@ -694,7 +659,7 @@ const Page = {
 
 
 
-_initPageProps() {
+_initProps() {
   this.props = {
     width: SVG_WIDTH, 
     height: SVG_HEIGHT, 
@@ -702,6 +667,20 @@ _initPageProps() {
   };
 
   this._checkModeInbox();
+},
+
+_initSizes() {
+  let {width, height} = this.props;
+  canvas_height = +height / +width * canvas_width >> 0;
+  origin_scale = +width / canvas_width;
+  this._centerX = canvas_width >> 1;
+  this._centerY = canvas_height >> 1;
+  let _docWidth = document.documentElement.offsetWidth;
+  let _docHeight = document.documentElement.offsetHeight;
+  this._docWidth = _docWidth;
+  this._docHeight = _docHeight;
+  this._maxCssScale = _docWidth / BASE_WIDTH; //css缩放上限
+  document.querySelector('.main-wrap').style.height = ((canvas_height * (1.25 - 0.125)) >> 1) + 'px';
 },
 
 _checkModeInbox() {
@@ -738,4 +717,4 @@ _checkModeInbox() {
 
 }
 
-Page.initialize();
+export default Drawer;

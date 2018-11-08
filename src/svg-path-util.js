@@ -46,6 +46,7 @@ const svgUtil = {
     framePaths = svgPaths;
     framePaths.allFrames = allFrames;
     this.pathLength = svgPaths.length;
+    this.clearHitMap();
   },
 
   clearHitMap() {
