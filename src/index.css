@@ -106,15 +106,15 @@ html, body {
 }
 
 .toolbar .icon-back {
-  background-image: url('./images/icon-back.png');
+  background-image: url('../images/icon-back.png');
 }
 
 .toolbar .icon-fore {
-  background-image: url('./images/icon-fore.png');
+  background-image: url('../images/icon-fore.png');
 }
 
 .toolbar .icon-save {
-  background-image: url('./images/icon-check.png');
+  background-image: url('../images/icon-check.png');
 }
 
 .disabled {
@@ -181,7 +181,7 @@ text {
 
 .progress-complete .progress-point {
   background-color: #5DB100;
-  background: #5DB100 url(./images/icon-check-white.png) center no-repeat;
+  background: #5DB100 url(../images/icon-check-white.png) center no-repeat;
   background-size: 80%;
 }
 
@@ -362,7 +362,6 @@ text {
     transform-origin: 0 0;
     -webkit-transform: scaleX(0.5);
     transform: scaleX(0.5);
-}
 }
 .weui-dialog__btn:first-child:after {
   display: none;

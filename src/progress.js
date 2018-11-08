@@ -15,14 +15,6 @@ export const updateProgress = function(current, total) {
 };
 
 export const initProgress = function() {
-  return;
   let progress = document.querySelector('.progress-bar');
-  let tipAmounts = document.querySelectorAll('.orange');
-  let worksPhotonAmount = +this.props.worksPhotonAmount;
-  if (!worksPhotonAmount || worksPhotonAmount < 1 || isNaN(worksPhotonAmount)) {
-    return;
-  }
-  tipAmounts[0].innerHTML = worksPhotonAmount + '光子';
-  tipAmounts[1].innerHTML = worksPhotonAmount + '光子';
   progress.classList.remove('hide');
 }

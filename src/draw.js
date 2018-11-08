@@ -1,8 +1,7 @@
 import {initProgress} from './progress'
 import {svgUtil, svgPaths, framePaths} from './svg-path-util'
 import {ColorPicker} from './color-picker'
-import {SVG_PATH_DATA} from './sample-svg-path-data'
-
+import {SVG_PATH_DATA, SVG_WIDTH, SVG_HEIGHT} from './sample-svg-path-data'
 
 const SCALE_THRESHOLD = 0.01;
 const MOVE_THRESHOLD = 1;
@@ -10,6 +9,7 @@ const MAX_SCALE = 10;
 const MIN_SCALE = 1;
 const RATIO = 2;
 const BASE_WIDTH = 300;
+const BENCH_MARK_LEVEL = 10; //小程序systemInfo返回，用于区分是否开启低端手机下性能兼容模式
 
 let canvas_width = BASE_WIDTH * RATIO;
 let canvas_height;
@@ -17,14 +17,6 @@ let origin_scale;
 
 let cvs, ctx, shadowCvs, shadowCtx, offscreenCvs, offscreenCtx;
 let region;
-
-//静态图像数据
-let DATA = {
-  width: 600,
-  height: 800,
-  colorArr: '#5dc5ea,#e7e6e4,#fff2d0,#fee38a,#ffb926,#ff7463,#9e6248,#88c424,#2b7bb8',
-  benchmarkLevel: 10
-}
 
 const Page = {
 
@@ -50,7 +42,7 @@ const Page = {
     this._docHeight = _docHeight;
     this._maxCssScale = _docWidth / BASE_WIDTH; //css缩放上限
     document.querySelector('.main-wrap').style.height = canvas_height * (1.25 - 0.125) / 2 + 'px';
-    ColorPicker.initialize(this.props.colorArr);
+    ColorPicker.initialize();
     svgUtil.clearHitMap();
 
     // Promise.all([
@@ -316,7 +308,7 @@ const Page = {
     //this.renderRegions(ctx, true);
 
     this.updateStack();
-
+    //demo不用自动保存
     this.checkAutoSave();
   },
 
@@ -703,8 +695,11 @@ const Page = {
 
 
 _initPageProps() {
-  let {width, height, colorArr, benchmarkLevel} = DATA;
-  this.props = {width, height, colorArr, benchmarkLevel};
+  this.props = {
+    width: SVG_WIDTH, 
+    height: SVG_HEIGHT, 
+    benchmarkLevel: BENCH_MARK_LEVEL
+  };
 
   this._checkModeInbox();
 },

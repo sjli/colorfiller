@@ -1,3 +1,5 @@
+const DEFAULT_COLORS = '#5dc5ea,#e7e6e4,#fff2d0,#fee38a,#ffb926,#ff7463,#9e6248,#88c424,#2b7bb8';
+
 let cvs, ctx;
 let canvas_width, canvas_height;
 
@@ -96,14 +98,14 @@ export const ColorPicker = {
 
   _defaultColorActiveIndex: 0,
 
-  initialize(colorStr) {
+  initialize() {
     this.initCanvas();
-    this.initColors(colorStr);
+    this.initColors();
     this._colorChanged = false;
   },
 
-  initColors(colorStr) {
-    let defaultColors = colorStr.match(/\w{6}/g)
+  initColors() {
+    let defaultColors = DEFAULT_COLORS.match(/\w{6}/g)
         .map(t => [t.slice(0, 2), t.slice(2, 4), t.slice(4)]
         .map(c => parseInt(c, 16)));
     this._colorSeries['242,242,242'] = defaultColors.slice(0, 10);
