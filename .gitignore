@@ -61,4 +61,4 @@ typings/
 .next
 
 #webpack bundle output
-dist/
+#dist/

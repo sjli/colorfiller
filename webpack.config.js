@@ -3,6 +3,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 
+var IS_WDS = /webpack-dev-server/.test(process.env.npm_lifecycle_script);
+
 module.exports = {
 
   mode: 'development',
@@ -29,9 +31,12 @@ module.exports = {
       },
       {
         test: /\.(png|svg|jpg|gif)$/,
-        use: [
-          'file-loader'
-        ]
+        use: {
+          loader: 'file-loader',
+          options: {
+            publicPath: IS_WDS ? '' : 'dist'
+          }
+        }
       },
       {
         test: /\.m?js$/,
@@ -49,6 +54,7 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(['dist']),
     new HtmlWebpackPlugin({
+      filename: IS_WDS ? 'index.html' : '../index.html',
       template: './src/index.html'
     })
   ],

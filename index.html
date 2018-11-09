@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Demo of Canvas Color Filler</title>
+  <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+  <script type="text/javascript">
+    document.documentElement.style.fontSize = document.documentElement.clientWidth / 375 * 100 + 'px'
+  </script>
+</head>
+<body>
+  <div class="main-wrap">
+    <div class="canvas-wrap">
+      <canvas id="cvs"></canvas>
+      <canvas id="shadowCvs"></canvas>
+    </div>
+  </div>
+  <div class="toolbar">
+    <div class="color-picker">
+      <div class="color-items"></div>
+      <canvas class="color-series" id="colorCvs"></canvas>
+    </div>
+    <div class="btns-left">
+      <i class="icon-back disabled"></i>
+      <i class="icon-fore disabled"></i>
+    </div>
+    <div class="btns-right">
+      <div class="btn-save disabled">
+        <i class="icon-save"></i>
+        保存
+      </div>
+    </div>
+  </div>
+  <div class="progress-bar hide">
+    <div class="progress-value"></div>
+    <i class="progress-point"></i>
+  </div>
+  <div class="weui-loading-wrap hide">
+    <i class="weui-loading"></i>处理中...
+  </div>
+<script type="text/javascript" src="dist/vendors.c163c5b5bef21b6b5565.js"></script><script type="text/javascript" src="dist/data.1575d24a5c6c96f69288.js"></script><script type="text/javascript" src="dist/index.072e5479395258fef96b.js"></script></body>
+</html>
