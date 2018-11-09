@@ -184,21 +184,14 @@ const Drawer = {
     //多点操作
     if (e.touches.length > 1) {
       return this.onMultiTouchMove(e.touches);
-    } else if (this.multiTouches0) {
-      //双指离开时
-      //return;
     }
+
     let {clientX, clientY} = e.touches[0];
     if (!this._lastTouch) {
       return this._lastTouch = {clientX, clientY};
     }
     let dx = clientX - this._lastTouch.clientX;
     let dy = clientY - this._lastTouch.clientY;
-    //无缩放时不平移，消除transform导致的线条加深
-    // if (this._currentScale === 1) {
-    //   this._transforming = false;
-    //   return;
-    // }
     
     this.renderTranslate(dx * RATIO, dy * RATIO);
     this._lastTouch = {clientX, clientY};
@@ -236,14 +229,10 @@ const Drawer = {
     this.multiTouches1 = [{clientX: x0, clientY: y0}, {clientX: x1, clientY: y1}];
 
     let scale = this._currentScale *(1 + 0.005 * this._calcDistDiff(this.multiTouches0, this.multiTouches1)); //0.005为矫正系数，为得到较平滑的缩放体验
-    //let center = this._calcCenter(this.multiTouches0);
     
     this.multiTouches0 = [{clientX: x0, clientY: y0}, {clientX: x1, clientY: y1}];
 
     if (Math.abs(this._currentScale - scale) > SCALE_THRESHOLD) {
-      // this._centerX = center.x - this._cssLeft;
-      // this._centerY = center.y - this._cssTop;
-      //scale
       this.renderScale(scale);
     }
   },
@@ -262,19 +251,14 @@ const Drawer = {
     this._regions = svgUtil.getColoredRegions(this._regionIds, this._colors);
     svgUtil.addToHitMap(this._regionIds[this._regionIds.length - 1]);
 
-    // this._applyTransform(ctx);
-    // ctx.fillStyle = color;
-    // ctx.fill(region);
-    // this._restore(ctx);
     setTimeout(() => {
       this.renderShadow(2);
     })
     this._fillOneRegion(ctx, region);
-    //this.renderRegions(ctx, true);
 
     this.updateStack();
     //demo不用自动保存
-    this.checkAutoSave();
+    //this.checkAutoSave();
   },
 
   checkAutoSave() {
@@ -304,27 +288,6 @@ const Drawer = {
 
   save(e, isAutoSave) {
     alert('do nothing on demo');
-  },
-
-  navToShare() {
-    if (typeof wx === 'undefined') {
-      alert('not in WeiXin');
-      return;
-    }
-    wx.miniProgram.redirectTo({
-      url: '/pages/share/share?id=' + this.artworkId
-    });
-  },
-
-  _checkFinish(artComplete) {
-    if (!this.props.worksPhotonAmount || this.props.worksPhotonAmount < 1) {
-      return this.navToShare();
-    }
-    if (artComplete) {
-      document.querySelector('#dialogSuccess').style.display = '';
-    } else {
-      document.querySelector('#dialogConfim').style.display = '';
-    }
   },
 
   _travelStack(add) {
@@ -371,12 +334,12 @@ const Drawer = {
     } else if (currentScale < MIN_SCALE) {
       currentScale = MIN_SCALE;
     }
-    //console.log('scale', currentScale);
+
     this._currentScale = currentScale;
     if (this._modeInbox) {
       this._checkTransBounds();
     }
-    //this.renderTransform(ctx);
+
     clearTimeout(this._transTimer);    
     this._transTimer = setTimeout(() => {
       this.renderTransform();
@@ -390,7 +353,7 @@ const Drawer = {
     if (this._modeInbox) {
       this._checkTransBounds(_currentTranslate);
     }
-    //this.renderTransform(ctx);
+
     clearTimeout(this._transTimer);
     this._transTimer = setTimeout(() => {
       this.renderTransform();
@@ -498,9 +461,7 @@ const Drawer = {
 
     this._cssLeft = cssLeft;
     this._cssTop = cssTop;
-    //set css
-    //cssLeft = cssLeft > BASE_WIDTH ? BASE_WIDTH : cssLeft < -cssWidth ? -cssWidth : cssLeft;
-    //cssTop = cssTop > _docHeight - _bottomHeight ? _docHeight - _bottomHeight : cssTop < 20 - cssHeight ? 20 - cssHeight : cssTop;
+
     let cssText = '';
     cssText += ';width:' + cssWidth + 'px;';
     cssText += 'height:' + cssHeight + 'px;';
@@ -588,7 +549,6 @@ const Drawer = {
     this._isDulpliHitted = svgUtil.isInHitMap(region);
     if (this._isDulpliHitted) {
       console.log('hitted')
-      //return;
     }
     this.renderBucket();
   },
@@ -704,10 +664,6 @@ _checkModeInbox() {
       this._modeInbox = true;
     }
   }
-
-  //alert('性能等级'+this.props.benchmarkLevel + '品牌'+ this.props.brand + '型号'+this.props.model+'系统' + this.props.system);
-
-  //this._modeInbox = true; // dev
 
   if (this._modeInbox) {
     document.body.classList.add('mode-inbox');

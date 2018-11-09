@@ -19,7 +19,7 @@ const svgUtil = {
       path._str = pathStr;
       return path;
     });
-    //console.log(svgPaths.length);
+
     //预处理，过滤掉面积小于一定值的路径
     svgPaths = svgPaths.filter(path => {
       //使用SvgPath转换获得path的区域大小
@@ -31,7 +31,7 @@ const svgUtil = {
       let area = Math.abs(w * h);
       return area >= MIN_AREA;
     });
-    //console.log(svgPaths.length);
+    
     svgPaths.forEach(path => {
       //部分系统没有addPath
       if (allFrames.addPath) {
